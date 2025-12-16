@@ -75,7 +75,7 @@ export default function InvoiceModal({ darkMode, invoice, onClose, onSave }: Inv
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 overflow-y-auto"
+      className="fixed inset-0 bg-black bg-opacity-50 flex items-start md:items-center justify-center z-50 p-4 overflow-y-auto"
       onClick={onClose}
     >
       <motion.div
@@ -83,13 +83,13 @@ export default function InvoiceModal({ darkMode, invoice, onClose, onSave }: Inv
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.9, opacity: 0 }}
         onClick={(e) => e.stopPropagation()}
-        className={`w-full max-w-5xl rounded-xl shadow-2xl my-8 ${
+        className={`w-full max-w-5xl rounded-xl shadow-2xl my-8 max-h-[90vh] overflow-y-auto ${
           darkMode ? 'bg-gray-800' : 'bg-white'
         }`}
       >
-        {/* Modal Header */}
-        <div className={`flex items-center justify-between p-6 border-b ${
-          darkMode ? 'border-gray-700' : 'border-gray-200'
+        {/* Modal Header - Fixed at top */}
+        <div className={`sticky top-0 z-10 flex items-center justify-between p-6 border-b ${
+          darkMode ? 'border-gray-700 bg-gray-800' : 'border-gray-200 bg-white'
         }`}>
           <h2 className="text-2xl font-bold">
             {invoice ? 'Edit Invoice' : 'Create New Invoice'}

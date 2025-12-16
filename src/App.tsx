@@ -8,6 +8,7 @@ import Header from './Header';
 import SearchBar from './SearchBar';
 import InvoiceList from './InvoiceList';
 import InvoiceModal from './InvoiceModal';
+import WelcomeCard from './WelcomeCard';
 import Footer from './Footer';
 
 export default function App() {
@@ -18,6 +19,7 @@ export default function App() {
   const [filterStatus, setFilterStatus] = useState<string>('All');
   const [showModal, setShowModal] = useState(false);
   const [editingInvoice, setEditingInvoice] = useState<Invoice | null>(null);
+  const [showWelcome, setShowWelcome] = useState(true);
 
   // Load invoices from localStorage on mount
   useEffect(() => {
@@ -34,6 +36,12 @@ export default function App() {
     const storedTheme = localStorage.getItem('theme');
     if (storedTheme === 'dark') {
       setDarkMode(true);
+    }
+    
+    // Check if user has seen welcome message
+    const hasSeenWelcome = localStorage.getItem('hasSeenWelcome');
+    if (hasSeenWelcome) {
+      setShowWelcome(false);
     }
   }, []);
 
@@ -95,6 +103,12 @@ export default function App() {
     setEditingInvoice(null);
     setShowModal(true);
   };
+  
+  // Close welcome card
+  const handleCloseWelcome = () => {
+    setShowWelcome(false);
+    localStorage.setItem('hasSeenWelcome', 'true');
+  };
 
   return (
     <div className={`min-h-screen transition-colors duration-300 ${
@@ -109,6 +123,16 @@ export default function App() {
 
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8 max-w-7xl">
+        {/* Welcome Card */}
+        <AnimatePresence>
+          {showWelcome && (
+            <WelcomeCard 
+              darkMode={darkMode}
+              onClose={handleCloseWelcome}
+            />
+          )}
+        </AnimatePresence>
+
         {/* Search and Filter Bar */}
         <SearchBar 
           searchTerm={searchTerm}
